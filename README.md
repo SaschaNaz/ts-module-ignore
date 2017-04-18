@@ -21,17 +21,26 @@ task("browser", () => {
 ```
 
 ### Note
-This does not read TypeScript syntax tree but simply remove any of `export` string that appear on the line start. You need to be careful when you use strings containing `export`:
 
-```js
-var foo = `
-export this!
-this export!
-`;
-
-// output will:
-var foo = `
-this!
-this export!
-`;
-```
+* `export`-ignored file will not work on Node.js anymore so you have to keep your original code.
+* Non-exported variables will also be exposed globally. If you don't want it you will want to wrap them by `namespace`. 
+  ```ts
+  namespace A {
+    function foo() {}
+    export function bar() {}
+  }
+  export default A;
+  ```
+* This does not read TypeScript syntax tree but simply remove any of `export` string that appear on the line start. You need to be careful when you use strings containing `export`:
+  ```js
+  var foo = `
+  export this!
+  this export!
+  `;
+  
+  // output will:
+  var foo = `
+  this!
+  this export!
+  `;
+  ```
