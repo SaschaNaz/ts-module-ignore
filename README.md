@@ -1,4 +1,4 @@
-# ts-module-ignore
+# ts-module-ignore ![travis](https://travis-ci.org/SaschaNaz/ts-module-ignore.svg?branch=master)
 This receives a TypeScript module code and removes export keywords.
 
 ### Why remove `export`?
