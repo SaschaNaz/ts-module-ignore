@@ -12,8 +12,8 @@ Use ts-module-ignore on build tool e.g. Jake:
 import ignore = require("ts-build-ignore").ignore;
 
 desc("browser")
-task("browser", () => {
-  let ignored = ignore(originalFilePath, newFilePath); // 1.
+task("browser", async () => {
+  const ignored = await ignore(originalFilePath, newFilePath); // 1.
   // 2. call tsc
 });
 ```
