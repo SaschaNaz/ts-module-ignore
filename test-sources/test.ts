@@ -43,7 +43,7 @@ function mkdirAsync(path: string) {
 
 function existsAsync(path: string) {
     return new Promise<boolean>((resolve, reject) => {
-        fs.exists(path, exists => resolve(exists))
+        fs.access(path, err => err ? resolve(false) : resolve(true));
     })
 }
 
