@@ -1,9 +1,12 @@
 {
   "devDependencies": {
-    "@types/node": "^7.0.13"
+    "@types/chai": "^3.5.1",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.13",
+    "chai": "^3.5.0"
   },
   "name": "ts-module-ignore",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ts-module-ignore receives a TypeScript module code and removes export keywords.",
   "main": "index.js",
   "repository": "https://github.com/SaschaNaz/ts-module-ignore.git",
@@ -12,10 +15,5 @@
   "scripts": {
     "pretest": "npm install typescript -g; npm install mocha -g",
     "test": "tsc -p test-sources/; mocha"
-  },
-  "dependencies": {
-    "@types/chai": "^3.5.1",
-    "@types/mocha": "^2.2.41",
-    "chai": "^3.5.0"
   }
 }
