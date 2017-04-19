@@ -1,3 +1,4 @@
+test/
 test-diff-output/
 test-sources/*.js
 test-resources/diff/output/
