@@ -13,10 +13,8 @@ import ignore = require("ts-build-ignore").ignore;
 
 desc("browser")
 task("browser", () => {
-  let originalCode; // 1. get code by fs.readFile
-  let ignored = ignore(originalCode); // 2.
-  // 3. write ignored file
-  // 4. call tsc
+  let ignored = ignore(originalFilePath, newFilePath); // 1.
+  // 2. call tsc
 });
 ```
 
