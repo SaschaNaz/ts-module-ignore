@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@types/chai": "^3.5.1",
+    "@types/mkdirp": "^0.3.29",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.13",
     "chai": "^3.5.0"
@@ -16,5 +17,8 @@
   "scripts": {
     "pretest": "npm install typescript -g; npm install mocha -g",
     "test": "tsc -p test-sources/; mocha"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1"
   }
 }

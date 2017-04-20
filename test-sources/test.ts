@@ -52,9 +52,6 @@ describe("diff check", () => {
         const targetdir = "test-resources/diff/target/";
         const outputdir = "test-resources/diff/output/";
         const baselinedir = "test-resources/diff/baseline/";
-        if (!await existsAsync(outputdir)) {
-            await mkdirAsync(outputdir);
-        }
         for (const testfile of (await readdirAsync(targetdir))) {
             const outputPath = outputdir + testfile;
             const baselinePath = baselinedir + testfile;

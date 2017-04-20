@@ -1,4 +1,6 @@
 import * as fs from "fs"
+import * as path from "path"
+import * as mkdirp from "mkdirp";
 
 function readFileAsync(path: string) {
     return new Promise<string>((resolve, reject) => {
@@ -26,8 +28,27 @@ function writeFileAsync(path: string, content: string) {
     })
 }
 
-export async function ignore(path: string, outPath: string) {
-    const content = await readFileAsync(path);
+function mkdirpAsync(path: string) {
+    return new Promise<void>((resolve, reject) => {
+        mkdirp(path, err => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        })
+    })
+}
+
+function existsAsync(path: string) {
+    return new Promise<boolean>((resolve, reject) => {
+        fs.access(path, err => err ? resolve(false) : resolve(true));
+    })
+}
+
+export async function ignore(inPath: string, outPath: string) {
+    const content = await readFileAsync(inPath);
     const array = content.split("\n");
 
     const ignored = Array.from((function* () {
@@ -44,6 +65,11 @@ export async function ignore(path: string, outPath: string) {
             }
         }
     })());
+
+    const dirname = path.dirname(outPath);
+    if (!await existsAsync(dirname)) {
+        await mkdirpAsync(dirname);
+    }
 
     await writeFileAsync(outPath, ignored.join('\n'));
 }
