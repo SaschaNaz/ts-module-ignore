@@ -7,7 +7,7 @@
     "chai": "^3.5.0"
   },
   "name": "ts-module-ignore",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ts-module-ignore receives a TypeScript module code and removes export keywords.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
