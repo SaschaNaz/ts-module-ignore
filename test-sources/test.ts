@@ -1,63 +1,17 @@
 import ignore from "../lib/index.js";
-import * as fs from "fs";
+import * as mz from "mz/fs";
 import * as chai from "chai";
-
-function readFileAsync(path: string) {
-    return new Promise<string>((resolve, reject) => {
-        fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(data);
-            }
-        })
-    });
-}
-
-function readdirAsync(path: string) {
-    return new Promise<string[]>((resolve, reject) => {
-        fs.readdir(path, (err, files) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(files);
-            }
-        })
-    })
-}
-
-function mkdirAsync(path: string) {
-    return new Promise<void>((resolve, reject) => {
-        fs.mkdir(path, err => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve();
-            }
-        })
-    })
-}
-
-function existsAsync(path: string) {
-    return new Promise<boolean>((resolve, reject) => {
-        fs.access(path, err => err ? resolve(false) : resolve(true));
-    })
-}
 
 describe("diff check", () => {
     it("should same", async () => {
         const targetdir = "test-resources/diff/target/";
         const outputdir = "test-resources/diff/output/";
         const baselinedir = "test-resources/diff/baseline/";
-        for (const testfile of (await readdirAsync(targetdir))) {
+        for (const testfile of (await mz.readdir(targetdir))) {
             const outputPath = outputdir + testfile;
             const baselinePath = baselinedir + testfile;
             await ignore(targetdir + testfile, outputPath);
-            console.log(await readFileAsync(baselinePath) === await readFileAsync(outputPath))
-            chai.assert.strictEqual(await readFileAsync(baselinePath), await readFileAsync(outputPath), "output should be same as baseline");
+            chai.assert.strictEqual(await mz.readFile(baselinePath, "utf8"), await mz.readFile(outputPath, "utf8"), "output should be same as baseline");
         }
     })
 });
@@ -65,7 +19,7 @@ describe("diff check", () => {
 describe("prevent import", () => {
     it("should error out", async () => {
         const errordir = "test-resources/error/";
-        for (const testfile of (await readdirAsync(errordir))) {
+        for (const testfile of (await mz.readdir(errordir))) {
             try {
                 await ignore(errordir + testfile, "");
             }

@@ -3,6 +3,7 @@
     "@types/chai": "^3.5.1",
     "@types/mkdirp": "^0.3.29",
     "@types/mocha": "^2.2.41",
+    "@types/mz": "^0.0.31",
     "@types/node": "^7.0.13",
     "chai": "^3.5.0"
   },
@@ -19,6 +20,7 @@
     "test": "tsc -p test-sources/; mocha"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "mz": "^2.6.0"
   }
 }

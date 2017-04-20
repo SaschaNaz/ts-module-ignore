@@ -1,32 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import * as mkdirp from "mkdirp";
-
-function readFileAsync(path: string) {
-    return new Promise<string>((resolve, reject) => {
-        fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(data);
-            }
-        })
-    });
-}
-
-function writeFileAsync(path: string, content: string) {
-    return new Promise<void>((resolve, reject) => {
-        fs.writeFile(path, content, err => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve();
-            }
-        });
-    })
-}
+import * as mz from "mz/fs";
 
 function mkdirpAsync(path: string) {
     return new Promise<void>((resolve, reject) => {
@@ -41,14 +16,8 @@ function mkdirpAsync(path: string) {
     })
 }
 
-function existsAsync(path: string) {
-    return new Promise<boolean>((resolve, reject) => {
-        fs.access(path, err => err ? resolve(false) : resolve(true));
-    })
-}
-
 export async function ignore(inPath: string, outPath: string) {
-    const content = await readFileAsync(inPath);
+    const content = await mz.readFile(inPath, "utf8");
     const array = content.split("\n");
 
     const ignored = Array.from((function* () {
@@ -66,12 +35,18 @@ export async function ignore(inPath: string, outPath: string) {
         }
     })());
 
-    const dirname = path.dirname(outPath);
-    if (!await existsAsync(dirname)) {
-        await mkdirpAsync(dirname);
-    }
+    const result = ignored.join('\n');
 
-    await writeFileAsync(outPath, ignored.join('\n'));
+    try {
+        await mz.writeFile(outPath, result);
+    }
+    catch (e) {
+        // recommended not to check existence before writeFile
+        // but to just catch error trying writeFile
+        const dirname = path.dirname(outPath);
+        await mkdirpAsync(dirname);
+        await mz.writeFile(outPath, result);
+    }
 }
 
 export default ignore;
