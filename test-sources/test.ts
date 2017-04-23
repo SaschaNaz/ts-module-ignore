@@ -26,7 +26,7 @@ describe("prevent import", () => {
             catch (e) {
                 continue;
             }
-            throw new Error("should be error out but did not");
+            throw new Error("should error out but did not");
         }
     })
 });
